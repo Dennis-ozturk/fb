@@ -19,7 +19,7 @@ class API
     public function create($data)
     {
         // Setup query.
-        $sql = "INSERT INTO products (" . implode(',', $this->fields) . ") " .
+        $sql = "INSERT INTO $this->table (" . implode(',', $this->fields) . ") " .
             'VALUES (:' . implode(', :', $this->fields) . ')';
 
         // Prepare query.
