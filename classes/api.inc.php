@@ -5,6 +5,7 @@ class API
     protected $table;
     protected $table_id;
     protected $fields;
+    protected $row_id;
 
     private $db;
 
@@ -15,9 +16,10 @@ class API
         $this->db = $this->db->connect();
 
         $this->fields = array_column($this->getFields(), 'Field');
+        $this->row_id = array_column($this->get(), 'id');
     }
 
-    public function create($data)
+    public function post($data)
     {
         // Setup query.
         $sql = "INSERT INTO $this->table (" . implode(',', $this->fields) . ") " .
@@ -71,10 +73,35 @@ class API
     }
 
     //den här funktionen tar bort alla rader eftersom att alla id:n är ett id.
-    public function delete() {
-        $sql = "DELETE FROM $this->table WHERE id = $this->table_id";
-        var_dump($sql);
+    public function delete($id = null) {
+
+        $sql = "DELETE FROM $this->table";
+        $parameters = null;
+        // var_dump($sql);
+
+        if ($id !== null) {
+            // If caller has provided id, then let's just look for that one product.
+            $sql .= " WHERE $this->table_id = :table_id ";
+            $parameters = ['table_id' => $id];
+        }
+        
         $statement = $this->db->prepare($sql);
-        return $statement->execute();
+        return $statement->execute($parameters);
+    }
+
+    public function put($id = null) {
+        $sql = "UPDATE $this->table";
+        $parameters = null;
+        var_dump($sql);
+
+        die;
+        if ($id !== null) {
+            // If caller has provided id, then let's just look for that one product.
+            $sql .= VALUES('') = :table_id;
+            $parameters = ['table_id' => $id];
+        }
+
+        $statement = $this->db->prepare($sql);
+        return $statement->execute($parameters);
     }
 }
