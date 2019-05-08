@@ -1,8 +1,8 @@
 <?php
 
-include_once 'api.php';
+include_once 'api.inc.php';
 
-class Book extends API
+class Author extends API
 {
     protected $table = 'authors';
     protected $table_id = 'id';

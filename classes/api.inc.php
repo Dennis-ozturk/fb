@@ -10,6 +10,7 @@ class API
 
     public function __construct()
     {
+        include 'db/db.php';
         $this->db = new DB();
         $this->db = $this->db->connect();
 
