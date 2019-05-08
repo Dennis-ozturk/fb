@@ -58,10 +58,21 @@ switch ($request_method) {
             $response['info']['message'] = "Couldn't create item.";
         }
         break;
+    
+    case 'delete':
+    if ($obj->delete()) {
+        echo "object deleted";
+    }
+    else
+    {
+        "failed to delete object";
+    }
+    break;
 
-    // case 'delete':
-    // if ($obj->delete)
+        // case 'put':
+        //     if ($obj->update($body_data)) {
 
+        //     }
     // Everything else: GET.
     default:
         $data = $obj->get($args);

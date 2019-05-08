@@ -69,4 +69,12 @@ class API
     {
         return $this->db->query("SHOW COLUMNS FROM $this->table;")->fetchAll();
     }
+
+    //den här funktionen tar bort alla rader eftersom att alla id:n är ett id.
+    public function delete() {
+        $sql = "DELETE FROM $this->table WHERE id = $this->table_id";
+        var_dump($sql);
+        $statement = $this->db->prepare($sql);
+        return $statement->execute();
+    }
 }
