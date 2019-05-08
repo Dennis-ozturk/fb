@@ -59,16 +59,18 @@ class User
         $stmt = $this->db->prepare("SELECT api FROM users WHERE email = :email");
         $api = bin2hex(openssl_random_pseudo_bytes(16));
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);
-        if ($stmt->execute()) {
-            if ($stmt->rowCount() > 0) {
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    if (!empty($row)) { echo "not empty"; } elseif ($row == $api) { echo "same api"; } elseif (empty($row)) {
-                        echo 'Worked';
-                        $this->generateApi($email, $api);
-                    }
-                }
-            }
+        $stmt->execute();
+
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach($data[0] as $value){
+            empty($value) || $value != $api ? $this->generateApi($email, $api) : '';
         }
+    }
+
+    public function generateNewApi($email, $api){
+        $stmt = $this->db->prepare("UPDATE users SET api = :api WHERE email = :email");
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->bindValue(':api', $api, PDO::PARAM_STR);
     }
 
     public function generateApi($email, $api)

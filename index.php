@@ -1,8 +1,7 @@
 <?php
 session_start();
 include_once 'db/db.php';
-include_once 'src/api.php';
-include_once 'src/user.inc.php';
+include_once 'classes/user.inc.php';
 
 $user = new User();
 ?>
