@@ -20,7 +20,9 @@ $user = new User();
 <body>
     <?php
 
-    if (!empty($_SESSION['user'])) { ?>
+    if (!empty($_SESSION['user'])) { 
+            echo $_SESSION['user'];
+        ?>
         <a href="logout.php">Logout</a>
         <form action="" method="POST">
             <input type="submit" name="generate" value="Generate Api key">

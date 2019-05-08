@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Värd: 127.0.0.1
--- Tid vid skapande: 06 maj 2019 kl 11:21
--- Serverversion: 10.1.35-MariaDB
--- PHP-version: 7.2.9
+-- Tid vid skapande: 08 maj 2019 kl 11:32
+-- Serverversion: 10.1.37-MariaDB
+-- PHP-version: 7.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -32,18 +32,6 @@ CREATE TABLE `authors` (
   `id` int(11) NOT NULL,
   `firstname` varchar(45) NOT NULL,
   `lastname` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `authorsbooks`
---
-
-CREATE TABLE `authorsbooks` (
-  `id` int(11) NOT NULL,
-  `authorId` int(11) NOT NULL,
-  `bookId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -83,6 +71,28 @@ CREATE TABLE `publishers` (
   `location` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- Tabellstruktur `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `email` varchar(256) NOT NULL,
+  `password` varchar(256) NOT NULL,
+  `api` varchar(52) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumpning av Data i tabell `users`
+--
+
+INSERT INTO `users` (`id`, `email`, `password`, `api`, `date_added`) VALUES
+(2, 'dennis.dada@hotmail.se', '1dbb0155d22e0e1b97cf0cda8f9e237ed698d08a5807d2c0f947c0b082e905a2', '7153d47ddcaf8a1b1bc6768bee40e6f8', '2019-05-08 08:40:36'),
+(3, 'dowinos@hotmail.se', '1dbb0155d22e0e1b97cf0cda8f9e237ed698d08a5807d2c0f947c0b082e905a2', '', '2019-05-08 09:05:20');
+
 --
 -- Index för dumpade tabeller
 --
@@ -91,12 +101,6 @@ CREATE TABLE `publishers` (
 -- Index för tabell `authors`
 --
 ALTER TABLE `authors`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `authorsbooks`
---
-ALTER TABLE `authorsbooks`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -118,6 +122,12 @@ ALTER TABLE `publishers`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index för tabell `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT för dumpade tabeller
 --
 
@@ -125,12 +135,6 @@ ALTER TABLE `publishers`
 -- AUTO_INCREMENT för tabell `authors`
 --
 ALTER TABLE `authors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT för tabell `authorsbooks`
---
-ALTER TABLE `authorsbooks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -150,6 +154,12 @@ ALTER TABLE `category`
 --
 ALTER TABLE `publishers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT för tabell `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

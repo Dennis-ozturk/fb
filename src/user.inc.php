@@ -62,7 +62,7 @@ class User
         if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    if (!empty($row)) { } elseif ($row == $api) { } elseif (empty($row)) {
+                    if (!empty($row)) { echo "not empty"; } elseif ($row == $api) { echo "same api"; } elseif (empty($row)) {
                         echo 'Worked';
                         $this->generateApi($email, $api);
                     }
