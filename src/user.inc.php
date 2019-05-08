@@ -1,8 +1,4 @@
 <?php
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-require('../vendor/autoload.php');
-
 class User
 {
     private $db;
@@ -45,37 +41,6 @@ class User
         }
     }
 
-    public function sendMail()
-    {
-
-        $mail = new PHPMailer();
-
-        $mail->isSMTP();
-        $mail->Host = 'smtp.mailtrap.io';
-        $mail->SMTPAuth = true;
-        $mail->Username = '2eb57a82b41b8e';
-        $mail->Password = 'dfd10316b4ad32';
-        $mail->SMTPSecure = 'tls';
-        $mail->Port = 2525;
-
-        $mail->setFrom('dennis.dada@hotmail.se', 'Dennis Ozturk');
-        $mail->addReplyTo('dennis.dada@hotmail.se', 'Dennis Ozturk');
-
-        $mail->addAddress('dennis.dada@hotmail.se', 'Dennis Ozturk');
-
-        $mail->Subject = 'PHPMailer SMTP test';
-
-        $mail->AltBody = "Line 1\r\nLine 2\r\nLine3";
-        $mail->Body = "Line 1\r\nLine 2\r\nLine3";
-
-        if (!$mail->send()) {
-            echo ("Message could not be sent");
-            echo ("Mailer error" . $mail->ErrorInfo);
-        } else {
-            echo ("Message sent");
-        }
-    }
-
     public function getAllUsers($email, $password)
     {
         //Get all users from db and set session to email
@@ -85,7 +50,53 @@ class User
         $stmt->bindValue(':password', $hash, PDO::PARAM_STR);
         if ($stmt->execute() && $stmt->fetchColumn()) {
             $_SESSION['user'] = $email;
-            header('location: /');
+            header('Location: index.php');
+        }
+    }
+
+    public function checkUserApi($email)
+    {
+        $stmt = $this->db->prepare("SELECT api FROM users WHERE email = :email");
+        $api = bin2hex(openssl_random_pseudo_bytes(16));
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() > 0) {
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    if (!empty($row)) { } elseif ($row == $api) { } elseif (empty($row)) {
+                        echo 'Worked';
+                        $this->generateApi($email, $api);
+                    }
+                }
+            }
+        }
+    }
+
+    public function generateApi($email, $api)
+    {
+        $stmt = $this->db->prepare("UPDATE users SET api = :api WHERE email = :email");
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->bindValue(':api', $api, PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            echo 'success';
+        }
+    }
+
+    public function getApi($email)
+    {
+        $stmt = $this->db->prepare("SELECT api FROM users WHERE email = :email");
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() > 0) {
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $data[] = $row;
+                }
+                if (!empty($data[0]['api'])) {
+                    return $data;
+                } else {
+                    echo "No api key generated";
+                }
+            }
         }
     }
 
@@ -93,6 +104,6 @@ class User
     {
         unset($_SESSION["user"]);
         session_destroy();
-        header("Location: /");
+        header("Location: index.php");
     }
 }
