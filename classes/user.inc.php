@@ -80,7 +80,7 @@ class User
         $stmt->bindValue(':api', $api, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
-            echo 'success';
+            header("Location: index.php");
         }
     }
 
