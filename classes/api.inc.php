@@ -62,7 +62,7 @@ class API
         $statement->execute($parameters);
 
         // Return all posts.
-        return $statement->fetchAll();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getFields()
