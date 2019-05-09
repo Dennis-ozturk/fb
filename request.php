@@ -44,7 +44,6 @@ if (empty($class)) {
     http_response_code(400);
 } else {
     $obj = new $class;
-
     // Setup router.
     switch ($request_method) {
         // Create record.
@@ -72,7 +71,7 @@ if (empty($class)) {
             break;
 
         case 'put':
-            if ($obj->update($args, $body_data)) {
+            if ($obj->put($args, $body_data)) {
                 http_response_code(200);
                 $response['results'] = $body_data;
                 $response['info']['no'] = 1;
@@ -86,8 +85,8 @@ if (empty($class)) {
 
         // Everything else: GET.
         default:
-            $data = $obj->get($args);
-
+            var_dump($obj->checkPublisherExists($args));
+            die;
             if ($data) {
                 http_response_code(200);
                 $response['info']['no'] = count($data);
