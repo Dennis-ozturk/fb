@@ -19,7 +19,6 @@ class API
 
     public function post($data)
     {
-        die;
         // Setup query.
         $sql = "INSERT INTO $this->table (" . implode(',', $this->fields) . ") " .
             'VALUES (:' . implode(', :', $this->fields) . ')';
@@ -103,18 +102,20 @@ class API
             unset($fields[0]);
             
             $sql = "UPDATE $this->table SET";
-
+            $key_value = [];
+           
             foreach ($body_data as $column => $data) {
-                $sql .= " $column = '$data' ";
+                $columndata = " $column = '$data'";
+                array_push($key_value, $columndata);
             }
-            
-            $sql .= "WHERE $this->table_id = $args";
+
+            $sql .= implode(', ', $key_value);
+            $sql .= " WHERE $this->table_id = $args";
             
             print_r($sql);
 
             $statement = $this->db->prepare($sql);
 
-            die;
             foreach ($this->getFields() as $field) {
                 if ($field['Field'] == $this->table_id) {
                     continue;

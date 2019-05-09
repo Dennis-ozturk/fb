@@ -14,7 +14,6 @@ $querystring = $_SERVER["QUERY_STRING"];
 
 // Get the querystring parts.
 $request_parts = explode('&id=', $querystring);
-// var_dump($request_parts);
 
 // Get request method. (GET, POST etc).
 $request_method = strtolower($_SERVER['REQUEST_METHOD']);
