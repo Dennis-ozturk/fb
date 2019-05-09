@@ -5,7 +5,6 @@ class API
     protected $table;
     protected $table_id;
     protected $fields;
-    protected $row_id;
 
     private $db;
 
@@ -16,11 +15,11 @@ class API
         $this->db = $this->db->connect();
 
         $this->fields = array_column($this->getFields(), 'Field');
-        $this->row_id = array_column($this->get(), 'id');
     }
 
     public function post($data)
     {
+        die;
         // Setup query.
         $sql = "INSERT INTO $this->table (" . implode(',', $this->fields) . ") " .
             'VALUES (:' . implode(', :', $this->fields) . ')';
@@ -73,11 +72,10 @@ class API
     }
 
     //den här funktionen tar bort alla rader eftersom att alla id:n är ett id.
-    public function delete($id = null) {
-
+    public function delete($id = null)
+    {
         $sql = "DELETE FROM $this->table";
         $parameters = null;
-        // var_dump($sql);
 
         if ($id !== null) {
             // If caller has provided id, then let's just look for that one product.
@@ -89,19 +87,55 @@ class API
         return $statement->execute($parameters);
     }
 
-    public function put($id = null) {
-        $sql = "UPDATE $this->table";
-        $parameters = null;
-        var_dump($sql);
+    public function getId($data)
+    {
+        return $this->db->query("SELECT id FROM $this->table WHERE id = $data")->fetchColumn();
+    }
 
-        die;
-        if ($id !== null) {
-            // If caller has provided id, then let's just look for that one product.
-            $sql .= VALUES('') = :table_id;
-            $parameters = ['table_id' => $id];
+    public function update($args, $body_data)
+    {
+        $body_data = json_decode(file_get_contents('php://input'), true);
+        
+        if (!empty($args) && !empty($body_data)) {
+            $getid = $this->getId($args);
+
+            $fields = $this->fields;
+            unset($fields[0]);
+            
+            $sql = "UPDATE $this->table SET";
+
+            foreach ($body_data as $column => $data) {
+                $sql .= " $column = '$data' ";
+            }
+            
+            $sql .= "WHERE $this->table_id = $args";
+            
+            print_r($sql);
+
+            $statement = $this->db->prepare($sql);
+
+            die;
+            foreach ($this->getFields() as $field) {
+                if ($field['Field'] == $this->table_id) {
+                    continue;
+                }
+
+                $filter = FILTER_SANITIZE_STRING;
+
+                $filter = FILTER_SANITIZE_NUMBER_INT;
+                $pdo_type = PDO::PARAM_INT;
+
+                if (in_array(substr($field['Type'], 0, 4), ['varc', 'char', 'text'])) {
+                    $pdo_type = PDO::PARAM_STR;
+                }
+                $statement->bindValue($field['Field'], filter_var($body_data[$field['Field']]));
+            }
+
+            return $statement->execute();
+        } else {
+            echo "data is null";
+            echo "<br>";
+            return false;
         }
-
-        $statement = $this->db->prepare($sql);
-        return $statement->execute($parameters);
     }
 }

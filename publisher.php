@@ -32,7 +32,7 @@ spl_autoload_register(function ($class_name) {
 $class = $request_parts[0];
 // var_dump($class);
 $args = $request_parts[1] ?? null;
-var_dump($args);
+// var_dump($args);
 $body_data = json_decode(file_get_contents('php://input'));
 // var_dump($body_data);
 
@@ -41,11 +41,9 @@ $response = [
     'results' => null
 ];
 
-
 if (empty($class)) {
     http_response_code(400);
 } else {
-
     $obj = new $class;
 
     // Setup router.
@@ -62,27 +60,30 @@ if (empty($class)) {
                 $response['info']['no'] = 0;
                 $response['info']['message'] = "Couldn't create item.";
             }
-        break;
+            break;
         
         case 'delete':
             if ($obj->delete($args)) {
-                echo "object deleted";
+                http_response_code(200);
+                $response['info']['message'] = "object deleted";
+            } else {
+                http_response_code(503);
+                $response['info']['message'] = "failed to delete object";
             }
-            else
-            {
-                "failed to delete object";
-            }
-        break;
+            break;
 
         case 'put':
-            if ($obj->delete($args)) {
-                echo "object updated";
+            if ($obj->update($args, $body_data)) {
+                http_response_code(200);
+                $response['results'] = $body_data;
+                $response['info']['no'] = 1;
+                $response['info']['message'] = "object updated";
+            } else {
+                http_response_code(503);
+                $response['info']['no'] = 0;
+                $response['info']['message'] = "failed to update object";
             }
-            else
-            {
-                "failed to delete object";
-            }
-        break;
+            break;
 
         // Everything else: GET.
         default:
@@ -98,7 +99,7 @@ if (empty($class)) {
                 $response['info']['message'] = "Couldn't find any items.";
                 $response['info']['no'] = 0;
             }
-        break;
+            break;
     }
 }
 
