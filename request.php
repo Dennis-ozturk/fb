@@ -13,7 +13,7 @@ $querystring = $_SERVER["QUERY_STRING"];
 // var_dump($querystring);
 
 // Get the querystring parts.
-$request_parts = explode('&id=', $querystring);
+$request_parts = explode('/', $querystring);
 
 // Get request method. (GET, POST etc).
 $request_method = strtolower($_SERVER['REQUEST_METHOD']);
@@ -85,8 +85,6 @@ if (empty($class)) {
 
         // Everything else: GET.
         default:
-            var_dump($obj->checkPublisherExists($args));
-            die;
             if ($data) {
                 http_response_code(200);
                 $response['info']['no'] = count($data);
