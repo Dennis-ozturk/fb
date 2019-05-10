@@ -1,20 +1,32 @@
 <?php
+include 'db/db.php';
 
 class API
 {
     protected $table;
     protected $table_id;
     protected $fields;
+    protected $auth;
 
     private $db;
 
     public function __construct()
     {
-        include 'db/db.php';
         $this->db = new DB();
         $this->db = $this->db->connect();
 
         $this->fields = array_column($this->getFields(), 'Field');
+    }
+
+    public function auth($api){
+        $stmt = $this->db->prepare('SELECT api FROM users WHERE api = :api');
+        $stmt->bindValue(':api', $api, PDO::PARAM_STR);
+
+        if($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public function create($data)
@@ -62,7 +74,7 @@ class API
         $statement->execute($parameters);
 
         // Return all posts.
-        return $statement->fetchAll();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getFields()

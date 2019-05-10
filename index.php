@@ -4,6 +4,7 @@ include_once 'db/db.php';
 include_once 'classes/user.inc.php';
 
 $user = new User();
+
 ?>
 
 <!DOCTYPE html>
@@ -19,8 +20,8 @@ $user = new User();
 <body>
     <?php
 
-    if (!empty($_SESSION['user'])) { 
-            echo $_SESSION['user'];
+    if (!empty($_SESSION['user'])) {
+        echo $_SESSION['user'];
         ?>
         <a href="logout.php">Logout</a>
         <form action="" method="POST">
@@ -28,7 +29,7 @@ $user = new User();
         </form>
         <?php
         $row = $user->getApi($_SESSION['user']);
-        echo("Api key: " . $row[0]['api']);
+        echo ("Api key: " . $row[0]['api']);
         ?>
     <?php
 } else { ?>
@@ -68,7 +69,7 @@ $user = new User();
         $user->getAllUsers($email, $password);
     }
 
-    if(isset($_POST['generate'])){
+    if (isset($_POST['generate'])) {
         $user->checkUserApi($_SESSION['user']);
     }
 

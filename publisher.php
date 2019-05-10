@@ -22,8 +22,8 @@ $request_method = strtolower($_SERVER['REQUEST_METHOD']);
 
 // kollar om klassen finns, om den gör det så ska den inkluderas. Annars visas felkod 501.
 spl_autoload_register(function ($class_name) {
-    if (file_exists('classes/'. $class_name . '.inc.php')) {
-        include 'classes/'. $class_name . '.inc.php';
+    if (file_exists('classes/' . $class_name . '.inc.php')) {
+        include 'classes/' . $class_name . '.inc.php';
     } else {
         http_response_code(501);
     }
@@ -45,7 +45,7 @@ $obj = new $class;
 
 // Setup router.
 switch ($request_method) {
-    // Create record.
+        // Create record.
     case 'post':
         if ($obj->create($body_data)) {
             http_response_code(201);
@@ -58,11 +58,7 @@ switch ($request_method) {
             $response['info']['message'] = "Couldn't create item.";
         }
         break;
-
-    // case 'delete':
-    // if ($obj->delete)
-
-    // Everything else: GET.
+        // Everything else: GET.
     default:
         $data = $obj->get($args);
 
