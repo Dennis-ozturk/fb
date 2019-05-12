@@ -23,10 +23,7 @@ $querystring = $_SERVER["QUERY_STRING"];
 // Get the querystring parts.
 $request_parts = explode('/', $querystring);
 //var_dump($request_parts);
-
-//get last part of querystring
-$last_part = $request_parts[count($request_parts) - 1];
-//var_dump($last_part);
+print_r($request_parts);
 
 // Get request method. (GET, POST etc).
 $request_method = strtolower($_SERVER['REQUEST_METHOD']);
