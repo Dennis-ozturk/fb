@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>API Documentation</title>
+</head>
+<body>
+
+    <h1>Publisher</h1>
+
+    <img src="img/publisher.png" alt="database">
+
+    <section class="header">
+        <header class="nav">
+
+        </header>
+    </section>
+
+    <section class="main">
+        
+        <div class="post">
+            <h2>Post request</h2>
+            <p class="url"><strong>URL</strong>: http://localhost/git/PHP/wies18-integration/grupparbete/fb/request.php?publisher</p>
+            <p><strong>Info</strong>: Id is auto increment therefore we only need to insert name and location data.</p>
+            <div class="example">
+                <p class="data">
+                    <h4>example data:</h4>
+                    {<br>
+                        &emsp;"name": "Penguin Random House",<br>
+                        &emsp;"location": "New York, USA"<br>
+                    }
+                </p>
+            </div>
+        </div>
+
+        <div class="get">
+            <h2>Get request</h2>
+            <h3>Get all publishers</h3>
+            <p class="url"><strong>URL</strong>: http://localhost/git/PHP/wies18-integration/grupparbete/fb/request.php?publisher</p>
+            <p><strong>Info</strong>: to get the data from all publishers, we simply use the same url as before but with a get request.</p>
+            <div class="example">
+                <p class="url"></p>
+            </div>
+            <h3>Get by id</h3>
+            <p class="url"><strong>Example URL</strong>: http://localhost/git/PHP/wies18-integration/grupparbete/fb/request.php?publisher/3</p>
+            <p><strong>Info</strong>: to get the data from a specific publisher by their id, we have to add a "/" to the url and then type the id of the publisher we want to get.</p>
+            <div class="example">
+                <p class="url"></p>
+            </div>
+        </div>
+
+        <div class="put">
+            <h2>Put request</h2>
+            <p class="url"><strong>Example URL</strong>: http://localhost/git/PHP/wies18-integration/grupparbete/fb/request.php?publisher/3</p>
+            <p><strong>Info</strong>: to update the data we will need to specify the data we want to change by entering the publisher id to the url. We have to add a "/" to the url and then type the id of the publisher we want to update.
+            We also have to insert the new data that we want to change to.</p>
+            <div class="example">
+                <p class="url"></p>
+                <h4>example data:</h4>
+                    {<br>
+                        &emsp;"name": "Changed name",<br>
+                        &emsp;"location": "Changed location"<br>
+                    }
+                <p class="data">
+                    
+                </p>
+            </div>  
+        </div>
+
+        <div class="delete">
+            <h2>Delete request</h2>
+            <p class="url"><strong>Example URL</strong>: http://localhost/git/PHP/wies18-integration/grupparbete/fb/request.php?publisher/3</p>
+            <p><strong>Info</strong>: to delete a publisher we will need to specify the publisher we want to delete by inserting it's id to the url. We have to add a "/" to the url and then type the id of the publisher we want to delete.</p>
+            <div class="example">
+                <p class="url"></p>
+                <p class="data">
+
+                </p>
+            </div>
+        </div>
+
+    </section>
+    
+    <section class="footer">
+        <footer class="nav">
+
+        </footer>
+    </section>
+</body>
+</html>
