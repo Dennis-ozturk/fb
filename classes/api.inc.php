@@ -22,13 +22,12 @@ class API
 
         $sql = "INSERT INTO $this->table (" . implode(', ', $this->fields) . ") " .
             'VALUES (:' . implode(', :', $this->fields) . ')';
-        $statement = $this->db->prepare($sql); 
+        $statement = $this->db->prepare($sql);
 
         $getfield = $this->getFields();
         array_shift($getfield);
 
         foreach ($getfield as $field) {
-        
             $filter = FILTER_SANITIZE_NUMBER_INT;
             $pdo_type = PDO::PARAM_INT;
 
@@ -71,7 +70,6 @@ class API
         if ($id !== null) {
             $sql .= " WHERE id = :id";
             $parameters = ['id' => $id];
-    
         } else {
             echo "false";
             echo "<br>";
@@ -108,7 +106,6 @@ class API
 
     public function put($id, $postman_data)
     {
-        
         if (!empty($id) && !empty($postman_data)) {
             $getid = $this->getId($id);
             $fields = $this->fields;
@@ -131,14 +128,14 @@ class API
                 if ($field['Field'] == $this->table_id) {
                     continue;
                 }
-                    $filter = FILTER_SANITIZE_NUMBER_INT;
-                    $pdo_type = PDO::PARAM_INT;
+                $filter = FILTER_SANITIZE_NUMBER_INT;
+                $pdo_type = PDO::PARAM_INT;
         
-                    if (in_array(substr($field['Type'], 0, 4), ['varc', 'char', 'text'])) {
-                        $filter = FILTER_SANITIZE_STRING;
-                        $pdo_type = PDO::PARAM_STR;
-                    }
-                $statement->bindValue($field['Field'], filter_var($body_data[$field['Field']]), $filter, $pdo_type);
+                if (in_array(substr($field['Type'], 0, 4), ['varc', 'char', 'text'])) {
+                    $filter = FILTER_SANITIZE_STRING;
+                    $pdo_type = PDO::PARAM_STR;
+                }
+                $statement->bindValue($field['Field'], filter_var($postman_data[$field['Field']], $filter), $pdo_type);
             }
             return $statement->execute();
         } else {

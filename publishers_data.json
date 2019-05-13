@@ -1,20 +1,16 @@
 {
-    "id": "3",
     "name": "Penguin Random House",
     "location": "New York, USA"
 },
 {
-    "id": "16",
     "name": "HarperCollins",
     "location": "Stockholm, Sweden"
 },
 {
-    "id": "17",
     "name": "Simon & Schuster",
     "location": "New York, USA"
 },
 {
-    "id": "18",
     "name": "Macmillan",
     "location": "London, UK"
 }
