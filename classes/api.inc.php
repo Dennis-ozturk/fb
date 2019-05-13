@@ -42,7 +42,7 @@ class API
         return $statement->execute();
     }
 
-    public function checkPublisherExist($fields)
+    public function checkNameExist($fields)
     {
         //Checks if user already publisher with name exists
         $sql = "SELECT name FROM $this->table WHERE name = :name";
