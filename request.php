@@ -50,8 +50,16 @@ if (empty($doubleQuestionMark)){
 
 if (strlen($api) >= 32) {
     $auth = $obj->auth($api);
+    if($auth === false) {
+        
+        $response['info']['message'] = "Authentication didn't go as planed.";
+        header("Content-Type: application/json; charset=UTF-8");
+        echo json_encode($response);
+        die;
+        
+    } 
 } else {
-    $auth = false;
+    die;
 }
 
 if ($auth === true) {

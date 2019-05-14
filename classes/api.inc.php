@@ -19,10 +19,11 @@ class API
     public function auth($api){
         $stmt = $this->db->prepare('SELECT api FROM users WHERE api = :api');
         $stmt->bindValue(':api', $api, PDO::PARAM_STR);
-
-        if ($stmt->execute()){
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($result){
             return true;
-        } else{
+        } else {
             return false;
         }
     }
