@@ -16,6 +16,17 @@ class API
         $this->fields = array_column($this->getFields(), 'Field');
     }
 
+    public function auth($api){
+        $stmt = $this->db->prepare('SELECT api FROM users WHERE api = :api');
+        $stmt->bindValue(':api', $api, PDO::PARAM_STR);
+
+        if ($stmt->execute()){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
     public function post($data)
     {
         array_shift($this->fields);
@@ -71,7 +82,6 @@ class API
             $sql .= " WHERE id = :id";
             $parameters = ['id' => $id];
         } else {
-            echo "false";
             echo "<br>";
         }
 
@@ -106,10 +116,13 @@ class API
 
     public function put($id, $postman_data)
     {
+            $id = explode('?', $id);
+            $id = $id[0];
+
         if (!empty($id) && !empty($postman_data)) {
             $getid = $this->getId($id);
             $fields = $this->fields;
-            unset($fields[0]);
+            array_shift($fields);
             
             // SQL QUERY START
             $sql = "UPDATE $this->table SET";
