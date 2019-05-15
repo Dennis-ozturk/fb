@@ -1,0 +1,39 @@
+table{
+    margin: 50px auto;
+    display: flex;
+    justify-content: center;
+    
+}
+tbody{
+    border: 1px solid black;
+    width: 1000px;
+}
+tr{
+    display: flex;
+    justify-content: space-between;
+
+}
+th{
+    padding: 20px;
+}
+td{
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body{
+    margin: 50px;
+    text-align: center;
+}
+
+img{
+    width: 100%;
+}
+hr{
+    margin: 50px auto 100px auto;
+    width: 300px;
+    opacity: 0.7;
+    background-color: cadetblue;
+}
