@@ -11,7 +11,6 @@ spl_autoload_register(function ($class_name) {
 
 // Get querystring.
 $querystring = $_SERVER["QUERY_STRING"];
-
 // Get the querystring parts.
 $request_parts = explode('/', $querystring);
 
@@ -42,13 +41,12 @@ if (empty($class)) {
     http_response_code(400);
 } else {
     $obj = new $class;
-
     // Setup request method for router.
     switch ($request_method) {
         
         // Create record.
         case 'post':
-            if ($obj->post($postman_data)) {
+            if ($obj->create($postman_data)) {
                 http_response_code(201);
                 $response['results'] = $postman_data;
                 $response['info']['no'] = 1;
