@@ -1,5 +1,7 @@
 <?php
 
+include 'db/db.php';
+
 class API
 {
     protected $table;
@@ -10,18 +12,18 @@ class API
 
     public function __construct()
     {
-        include 'db/db.php';
         $this->db = new DB();
         $this->db = $this->db->connect();
         $this->fields = array_column($this->getFields(), 'Field');
     }
 
-    public function auth($api){
+    public function auth($api)
+    {
         $stmt = $this->db->prepare('SELECT api FROM users WHERE api = :api');
-        $stmt->bindValue(':api', $api, PDO::PARAM_STR);
+        $stmt->bindValue(':api', $api[1], PDO::PARAM_STR);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($result){
+        if ($result) {
             return true;
         } else {
             return false;
@@ -117,8 +119,8 @@ class API
 
     public function put($id, $postman_data)
     {
-            $id = explode('?', $id);
-            $id = $id[0];
+        $id = explode('?', $id);
+        $id = $id[0];
 
         if (!empty($id) && !empty($postman_data)) {
             $getid = $this->getId($id);

@@ -24,12 +24,16 @@ $request_parts = explode('/', $querystring);
 // Get request method. (GET, POST etc).
 $request_method = strtolower($_SERVER['REQUEST_METHOD']);
 
-$class = $request_parts[0];
+$class = $request_parts[0] ?? null;
 
 $args = $request_parts[1] ?? null;
-
 $api = explode('?api=', $querystring);
-$api = $api[1];
+
+var_dump(count($api));
+if (count($api) <= 1) {
+    http_response_code(401);
+    die;
+}
 
 $doubleQuestion = preg_match('/\?(.+)\?/', $_SERVER['REQUEST_URI'], $doubleQuestionMark);
 
@@ -49,15 +53,19 @@ if (empty($doubleQuestionMark)) {
     $obj = new $doubleQuestionMark[1];
 }
 
-if (strlen($api) >= 32) {
+if (strlen($api[1]) >= 32 || strlen($api[1]) == 0) {
     $auth = $obj->auth($api);
-    
     if ($auth === false) {
         $response['info']['message'] = "Authentication didn't go as planed.";
         header("Content-Type: application/json; charset=UTF-8");
         echo json_encode($response);
         die;
     }
+} else {
+        $response['info']['message'] = "Authentication didn't go as planed.";
+        header("Content-Type: application/json; charset=UTF-8");
+        echo json_encode($response);
+    die;
 }
 
     // Setup request method for router.
