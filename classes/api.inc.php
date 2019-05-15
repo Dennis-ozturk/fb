@@ -50,7 +50,8 @@ class API
                 $pdo_type = PDO::PARAM_STR;
             }
 
-            $statement->bindValue($field['Field'], filter_var($data{$field['Field']}, $filter), $pdo_type);
+            $statement->bindValue($field['Field'], filter_var($data{
+                $field['Field']}, $filter), $pdo_type);
         }
 
         return $statement->execute();
@@ -61,9 +62,9 @@ class API
         //Checks if user already publisher with name exists
         $sql = "SELECT name FROM $this->table WHERE name = :name";
         $stmt = $this->db->prepare($sql);
-    
+
         $stmt->bindValue(':name', $fields['name'], PDO::PARAM_STR);
-        
+
         $stmt->execute();
 
         if ($stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -74,7 +75,7 @@ class API
             $this->post($fields);
         }
     }
-    
+
     public function get($id = null)
     {
         $parameters = null;
@@ -128,18 +129,18 @@ class API
             $getid = $this->getId($id);
             $fields = $this->fields;
             array_shift($fields);
-            
+
             // SQL QUERY START
             $sql = "UPDATE $this->table SET";
             $key_value = [];
-    
+
             foreach ($postman_data as $key => $value) {
                 $data = " $key = '$value'";
                 array_push($key_value, $data);
             }
             // SQL QUERY CONTINUE
-            $sql .= implode(', ', $key_value) ." WHERE $this->table_id = $id";
-          
+            $sql .= implode(', ', $key_value) . " WHERE $this->table_id = $id";
+
             $statement = $this->db->prepare($sql);
 
             foreach ($this->getFields() as $field) {
@@ -148,7 +149,7 @@ class API
                 }
                 $filter = FILTER_SANITIZE_NUMBER_INT;
                 $pdo_type = PDO::PARAM_INT;
-        
+
                 if (in_array(substr($field['Type'], 0, 4), ['varc', 'char', 'text'])) {
                     $filter = FILTER_SANITIZE_STRING;
                     $pdo_type = PDO::PARAM_STR;

@@ -35,7 +35,7 @@ class User
         }
         if ($stmt->execute()) {
             echo ("Registered");
-            header('location: /');
+            header('location: index.php');
         } else {
             echo ("Something went wrong");
         }
@@ -62,12 +62,13 @@ class User
         $stmt->execute();
 
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        foreach($data[0] as $value){
+        foreach ($data[0] as $value) {
             empty($value) || $value != $api ? $this->generateApi($email, $api) : '';
         }
     }
 
-    public function generateNewApi($email, $api){
+    public function generateNewApi($email, $api)
+    {
         $stmt = $this->db->prepare("UPDATE users SET api = :api WHERE email = :email");
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);
         $stmt->bindValue(':api', $api, PDO::PARAM_STR);
@@ -96,7 +97,7 @@ class User
                 if (!empty($data[0]['api'])) {
                     return $data;
                 } else {
-                    echo "No api key generated";
+                    echo "No api key generated <br>";
                 }
             }
         }
