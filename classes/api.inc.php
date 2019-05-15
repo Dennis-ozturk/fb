@@ -79,6 +79,8 @@ class API
     {
         $parameters = null;
 
+        var_dump($this->table);
+
         $sql = "SELECT * FROM $this->table";
 
         if ($id !== null) {

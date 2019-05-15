@@ -29,7 +29,6 @@ $class = $request_parts[0] ?? null;
 $args = $request_parts[1] ?? null;
 $api = explode('?api=', $querystring);
 
-var_dump(count($api));
 if (count($api) <= 1) {
     http_response_code(401);
     die;
@@ -77,6 +76,7 @@ switch ($request_method) {
             $response['results'] = $body_data;
             $response['info']['no'] = 1;
             $response['info']['message'] = "Item created ok.";
+            $response['api'] = true;
         } else {
             http_response_code(503);
             $response['info']['no'] = 0;
@@ -91,6 +91,7 @@ switch ($request_method) {
             $response['results'] = $body_data;
             $response['info']['no'] = 1;
             $response['info']['message'] = "object updated";
+            $response['api'] = true;
         } else {
             http_response_code(503);
             $response['info']['no'] = 0;
@@ -103,6 +104,7 @@ switch ($request_method) {
         if ($obj->delete($args)) {
             http_response_code(200);
             $response['info']['message'] = "object deleted";
+            $response['api'] = true;
         } else {
             http_response_code(503);
             $response['info']['message'] = "failed to delete object";
@@ -117,6 +119,7 @@ switch ($request_method) {
             $response['info']['no'] = count($data);
             $response['info']['message'] = "Returned items.";
             $response['results'] = $data;
+            $response['api'] = true;
         } else {
             http_response_code(404);
             $response['info']['message'] = "Couldn't find any items.";
