@@ -2,8 +2,8 @@
 
 // If "classes/file.inc.php" exists, include "file.inc.php" Else show response with code 501.
 spl_autoload_register(function ($class_name) {
-    if (file_exists('classes/'. $class_name . '.inc.php')) {
-        include 'classes/'. $class_name . '.inc.php';
+    if (file_exists('classes/' . $class_name . '.inc.php')) {
+        include 'classes/' . $class_name . '.inc.php';
     } else {
         http_response_code(501);
     }
@@ -61,15 +61,15 @@ if (strlen($api[1]) >= 32 || strlen($api[1]) == 0) {
         die;
     }
 } else {
-        $response['info']['message'] = "Authentication didn't go as planed.";
-        header("Content-Type: application/json; charset=UTF-8");
-        echo json_encode($response);
+    $response['info']['message'] = "Authentication didn't go as planed.";
+    header("Content-Type: application/json; charset=UTF-8");
+    echo json_encode($response);
     die;
 }
 
-    // Setup request method for router.
+// Setup request method for router.
 switch ($request_method) {
-    // Create record.
+        // Create record.
     case 'post':
         if ($obj->post($body_data)) {
             http_response_code(201);
@@ -83,8 +83,8 @@ switch ($request_method) {
             $response['info']['message'] = "Couldn't create item.";
         }
         break;
-        
-    // Update record.
+
+        // Update record.
     case 'put':
         if ($obj->put($args, $body_data)) {
             http_response_code(200);
@@ -99,7 +99,7 @@ switch ($request_method) {
         }
         break;
 
-    // Delete record.
+        // Delete record.
     case 'delete':
         if ($obj->delete($args)) {
             http_response_code(200);
@@ -111,8 +111,8 @@ switch ($request_method) {
         }
         break;
 
-    // Read record.
-    // case 'get'
+        // Read record.
+        // case 'get'
     default:
         if ($data = $obj->get($args)) {
             http_response_code(200);
